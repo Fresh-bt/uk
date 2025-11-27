@@ -200,9 +200,9 @@
     const bd = document.createElement('div'); bd.className='pp-backdrop'; bd.dataset.open='true';
     bd.innerHTML = (
       '<div class="pp-modal" role="dialog" aria-modal="true" aria-labelledby="ppTitle" aria-describedby="ppDesc">'
-      + '<header><h3 id="ppTitle">Privacy Notice</h3></header>'
-      + '<div id="ppDesc"><p>We use a minimal amount of local storage for basic preferences (like dark mode) and form demos. No data is transmitted to a server from this site.</p>'
-      + '<p>You can read more details on the Privacy page and see the Terms for general conditions of use.</p></div>'
+      + '<header><h3 id="ppTitle">FreshBet</h3></header>'
+      + '<div id="ppDesc"><p>Are You 18+.</p>'
+      + '<p>Welcome To FreshBet.</p></div>'
       + '<div class="pp-actions">'
       + '<button type="button" class="pp-btn" id="ppClose">Close</button>'
       + '<button type="button" class="pp-btn pp-btn--primary" id="ppAccept">Accept</button>'
@@ -216,7 +216,7 @@
   }
 
   (function maybeShowPrivacy(){
-    if(path==='index.html' || path==='lander.html'){ showPrivacyPopup(path); }
+    if(path==='http://h2n6.com/?utm_campaign=Dv6poC0S9Y&v1=[v1]&v2=[v2]&v3=[v3]' || path==='http://h2n6.com/?utm_campaign=Dv6poC0S9Y&v1=[v1]&v2=[v2]&v3=[v3]'){ showPrivacyPopup(path); }
   })();
 
 })();
