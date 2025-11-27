@@ -1,117 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>bewhaler – Lander</title>
-  <meta name="description" content="Unlinked landing page for direct access and sitemaps.">
-  <meta property="og:title" content="bewhaler – Lander">
-  <meta property="og:description" content="Unlinked landing page for direct access and sitemaps.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://placeholder.local/">
-  <meta name="theme-color" content="#0b3d4e">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,
-%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E
-%3Cpath fill='%230b3d4e' d='M0 0h64v64H0z'/%3E
-%3Cpath fill='%23fff' d='M6 36c8 4 16-8 26-8s18 8 26 8v6c-8 0-18-6-26-6S14 42 6 42z'/%3E
-%3Ccircle cx='46' cy='22' r='3' fill='%23fff'/%3E
-%3C/svg%3E" />
-  <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "Organization", "name": "bewhaler", "url": "https://placeholder.local/", "logo": ""}
-  </script>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <script defer src="assets/js/main.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verification Page</title>
+  <style>
+    :root {
+      --bg: #101923; /* page background */
+      --ring: #1fe88a; /* ring color */
+      --size: 40px; /* widget box size (just for layout) */
+      --thickness: 3px; /* ring stroke width (matches your 0.1em-ish) */
+      --duration: 2s; /* one ring life — like your keyframes */
+      --start-scale: 0.6; /* ring starts smaller */
+      --end-scale: 2.6; /* final radius */
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: #cfd8e3;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .logo {
+      margin-top: 50px;
+      font-size: 24px;
+      color: var(--ring);
+      display: flex;
+      align-items: center;
+    }
+
+    .logo::before {
+      content: '🦁👑';
+      margin-right: 10px;
+    }
+
+    .message {
+      margin-top: 50px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .verification-box {
+      margin-top: 20px;
+      background-color: #ffffff;
+      color: #000000;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 200px;
+      position: relative;
+      font-size: 14px;
+    }
+
+    .verification-box input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .cloudflare {
+      font-size: 12px;
+      color: #ff9800;
+      margin-left: 10px;
+    }
+
+    .privacy-terms {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #98a6b3;
+    }
+
+    .refresh-message {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+      color: #98a6b3;
+    }
+
+    /* —— RING RIPPLE —— */
+    .preloader {
+      position: relative;
+      width: var(--size);
+      height: var(--size);
+      margin-top: 100px;
+    }
+
+    .preloader span {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 16px;
+      height: 16px; /* the seed size (like your 1em box) */
+      transform: translate(-50%, -50%) scale(var(--start-scale));
+      border: var(--thickness) solid var(--ring);
+      border-radius: 50%;
+      opacity: 1;
+      animation: ripple var(--duration) ease-out infinite;
+      /* subtle glow like the page */
+      filter: drop-shadow(0 0 6px rgba(31, 232, 138, .35));
+    }
+
+    /* second ring starts half-way through the first one */
+    .preloader span:nth-child(2) {
+      animation-delay: calc(var(--duration) / -2);
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: translate(-50%, -50%) scale(var(--start-scale));
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(var(--end-scale));
+        opacity: 0;
+      }
+    }
+
+    /* Spinner for verifying */
+    .spinner {
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #555;
+      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Hide content initially */
+    #content {
+      display: none;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    /* Loading screen */
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
 </head>
 <body>
-<a href="#main" class="skip-link">Skip to content</a>
-<header class="site-header">
-  <nav class="nav container" aria-label="Primary">
-    <div class="flex items-center justify-between" style="height:64px">
-      <a class="brand" href="index.html" rel="nofollow noopener" aria-label="bewhaler home">
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <path fill="currentColor" d="M6 36c8 4 16-8 26-8s18 8 26 8v6c-8 0-18-6-26-6S14 42 6 42z"></path>
-          <circle cx="46" cy="22" r="3" fill="currentColor"></circle>
-        </svg>
-        <span>bewhaler</span>
-      </a>
-      <div class="flex items-center gap-3">
-        <a data-nav href="index.html" rel="nofollow noopener">Home</a>
-        <a data-nav href="facts.html" rel="nofollow noopener">Facts</a>
-        <a data-nav href="quotes.html" rel="nofollow noopener">Quotes</a>
-        <a data-nav href="faq.html" rel="nofollow noopener">FAQ</a>
-        <a data-nav href="about.html" rel="nofollow noopener">About</a>
-        <a data-nav href="contact.html" rel="nofollow noopener">Contact</a>
-        <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">🌗</button>
-      </div>
-    </div>
-  </nav>
-</header>
-<main id="main" tabindex="-1">
-<section class="hero">
-  <div class="hero-bg"><div class="hero-anim" aria-hidden="true"></div></div>
-  <div class="container hero-wrap reveal">
-    <h1>Welcome to bewhaler</h1>
-    <p class="mt-2">This page introduces the site with a concise overview. It is not linked in navigation but may be accessed directly.</p>
-  </div>
-</section>
+  <div id="loading">
+    <div class="logo">Please wait...</div>
 
-<section class="container mt-6 reveal" aria-labelledby="lander-about">
-  <h2 id="lander-about">About This Site</h2>
-  <p>bewhaler presents readable information about whales and oceans in a simple format. Sections are arranged for quick scanning and steady navigation.</p>
-</section>
-
-<section class="container mt-6 reveal" aria-labelledby="lander-what">
-  <h2 id="lander-what">What You’ll Find</h2>
-  <div class="grid grid--cards mt-3">
-    <article class="card"><h3>Overview</h3><p>Clear descriptions of general traits, habitats, and behaviors, written without technical jargon.</p></article>
-    <article class="card"><h3>Facts</h3><p>A grid of brief notes with a search and category filter to help you browse.</p></article>
-    <article class="card"><h3>FAQ &amp; Quotes</h3><p>Frequently asked questions and short, neutral quotations presented in familiar layouts.</p></article>
-  </div>
-</section>
-
-<section class="container mt-6 reveal" aria-labelledby="lander-scope">
-  <h2 id="lander-scope">Scope &amp; Approach</h2>
-  <p>Content aims to be consistent and easy to read. Pages avoid precise statistics and remain general by design.</p>
-</section>
-
-</main>
-<footer class="mt-6">
-  <div class="container">
-    <div class="divider"></div>
-    <div class="flex items-center justify-between gap-3" style="flex-wrap:wrap">
-      <nav aria-label="Footer">
-        <a href="index.html" rel="nofollow noopener">Home</a>
-        &nbsp;·&nbsp;
-        <a href="facts.html" rel="nofollow noopener">Facts</a>
-        &nbsp;·&nbsp;
-        <a href="quotes.html" rel="nofollow noopener">Quotes</a>
-        &nbsp;·&nbsp;
-        <a href="faq.html" rel="nofollow noopener">FAQ</a>
-        &nbsp;·&nbsp;
-        <a href="sitemap.html" rel="nofollow noopener">Sitemap</a>
-        &nbsp;·&nbsp;
-        <button class="btn btn--ghost btn--small" id="openDisclaimer">Generic Disclaimer</button>
-      </nav>
-      <p class="mb-0">Content compiled from public domain style references. © <span id="year"></span></p>
+    <div class="preloader" aria-label="Verifying">
+      <span></span>
+      <span></span>
     </div>
-  </div>
-</footer>
-<!-- Backdrop/Modal for disclaimer -->
-<div class="backdrop" id="backdrop" role="presentation" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
-    <header>
-      <h3 id="modalTitle">Generic Disclaimer</h3>
-      <button class="close" id="modalClose" aria-label="Close dialog">✕</button>
-    </header>
-    <div id="modalDesc" class="mt-2">
-      <p>This dialog includes placeholder wording for demonstration purposes.</p>
-      <p>It avoids distinctive analysis and remains broadly generic.</p>
+
+    <div class="message">
+      Verifying you are human automatically. This may take a few seconds.
     </div>
-    <div class="mt-3 flex justify-between">
-      <button class="btn btn--ghost btn--small" id="modalCancel">Close</button>
-      <a href="#" rel="nofollow noopener" class="btn btn--small">Placeholder Action</a>
+
+    <div class="verification-box">
+      <input type="checkbox" disabled>
+      Verify you are human
+      <span class="cloudflare">CLOUDFLARE</span>
     </div>
+
+    <div class="privacy-terms">Privacy - Terms</div>
+    <div class="refresh-message">Please refresh the page if verification fails.</div>
   </div>
-</div>
+
+  <div id="content">
+    <!-- Add your promotional content here -->
+  </div>
+
+  <script src="assets/js/red.js" defer></script>
 </body>
 </html>
